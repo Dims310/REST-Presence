@@ -67,17 +67,9 @@ func main() {
 			fmt.Fprint(w, info)
 		} else {
 			exec_script := "INSERT INTO user(name, presence, late_presence) VALUES (?, ?, ?)"
-			time := time.Now()
-			h, m := time.Hour(), time.Minute()
-			var late_presence bool
+			var late_presence = helper.PresenceTime()
 
-			if h <= 9 && m == 0 {
-				late_presence = false
-			} else {
-				late_presence = true
-			}
-
-			_, err = db.Exec(exec_script, name, time.Format("2006-01-02 15:04:05"), late_presence)
+			_, err = db.Exec(exec_script, name, helper.TimeNow().Format("2006-01-02 15:04:05"), late_presence)
 			helper.CatchPanic(err)
 
 			fmt.Fprint(w, helper.AppearJSON("Presence success, have good day! :)"))
