@@ -34,6 +34,10 @@ func CheckAbsence(rows *sql.Rows, idFromMain string) (r bool, s string) {
 				s = AppearJSON("Name already absence!")
 				r = true
 				break
+			} else if AbsenceTime() {
+				s = AppearJSON("Can't be absent! Make sure you are absent at the right time")
+				r = true
+				break
 			} else {
 				r = false
 				break
